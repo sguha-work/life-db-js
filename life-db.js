@@ -5,8 +5,10 @@ var LifeDB = (function() {
 		showErrorMessage, // this method display error in console
 		errorMessages, // this variables holds all kind of error messagesl
 		checkAndSetGlobalStorage, // this method will check wheather sessionStorage is availeble for storing data
-		isSessionStorageAvaileble; // If set then session storage is availeble for storing data
-
+		isSessionStorageAvaileble, // If set then session storage is availeble for storing data
+		isNodeEnvironment, // If set then the environment is node js
+		checkIfNodeEnvironment, // this method set the isNodeEnvironment flag
+		globalDataStorage; // if sessionStorage is unavaileble and the environment is not Node then this variable will be used as data storage
 	// public properties
 	this.initiate;
 	this.insert;
@@ -26,7 +28,18 @@ var LifeDB = (function() {
 	* @param {string} errorType - The type of the error
 	*/
 	showErrorMessage = (function(errorType) {
-		console.error(errorMessages.errorType);
+		console.error(errorMessages[errorType]);
+	});
+
+	/**
+	* This function checks wheather the environment is Node environment or not
+	*/
+	checkIfNodeEnvironment = (function() {
+		if(this===window) {
+			isNodeEnvironment = false;
+		} else {
+			isNodeEnvironment = true;
+		}
 	});
 
 	/**
@@ -36,6 +49,7 @@ var LifeDB = (function() {
 	checkAndSetGlobalStorage = (function() {
 		if(typeof sessionStorage !== "undefined") {
 			isSessionStorageAvaileble = true;
+			sessionStorage[databaseName] = "";
 		} else {
 			isSessionStorageAvaileble = false;
 		}
@@ -62,6 +76,7 @@ var LifeDB = (function() {
 			databaseName = arguments[0][0];
 		}
 		checkAndSetGlobalStorage();
+		checkIfNodeEnvironment();
 		
 	})(arguments);
 });
