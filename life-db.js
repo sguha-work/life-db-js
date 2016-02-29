@@ -18,6 +18,35 @@ var LifeDB = (function() {
 	this.remove;
 
 	/**
+	* This public method is called to insert single or multiple data to a perticuler page
+	* @param pageName {String} - The name of the page where the record or records will go
+	* @param record {Object/Array} - The data which are going to be inserted in the page
+	* @return {Number} - The number of rows effected
+	*/
+	insertIntoDataBase = (function(pageName, record) {
+		var recordIndex;
+		try {
+			if(typeof globalDataStorage === "undefined") {
+				globalDataStorage = {};
+			}
+			if(typeof globalDataStorage[pageName] === "undefined") {
+				globalDataStorage[pageName] = [];
+			}
+			if(Array.isArray(record)) {
+				for(recordIndex in record) {
+					globalDataStorage[pageName].push(record[recordIndex]);
+				}
+				return recordIndex;
+			} else {
+				globalDataStorage[pageName].push(record);	
+				return 1;
+			}
+		} catch(exception) {
+			return 0;
+		}
+	});
+	
+	/**
 	* This function backup the database to sessionStorage if the environment is browser or backup the database in file
 	* if the environment is Node
 	* 
