@@ -8,14 +8,38 @@ var LifeDB = (function() {
 		isSessionStorageAvaileble, // If set then session storage is availeble for storing data
 		isNodeEnvironment, // If set then the environment is node js
 		checkIfNodeEnvironment, // this method set the isNodeEnvironment flag
-		globalDataStorage // this variable will be used as data storage
-		backUpData; // backup the data in sessionStorage or in file
+		globalDataStorage, // this variable will be used as data storage
+		backUpData, // backup the data in sessionStorage or in file
+		checkAndRestoreData; // this method checks if there is any backup exists and restore the data to database
+
 	// public properties
 	this.initiate;
 	this.insert;
 	this.update;
 	this.query;
 	this.remove;
+
+	checkAndRestoreData = (function() {
+		var fs;
+		if(!isNodeEnvironment && isSessionStorageAvaileble) {
+			if(typeof sessionStorage[databaseName] === "undefined") {
+				// Restore process ignored
+			} else {
+				if(sessionStorage[databaseName].trim() !== "") {
+					globalDataStorage = JSON.parse(sessionStorage[databaseName]);
+				}
+			}
+		} else if(isNodeEnvironment) {
+			fs = require('fs');
+			if(fs.statSync(databaseName).isFile()) {
+				globalDataStorage = JSON.parse(fs.readFileSync(databaseName));	
+			} else {
+				// Restore process ignored	
+			}
+		} else {
+			// Restore process ignored
+		}
+	});
 
 	/**
 	* This public method is called to insert single or multiple data to a perticuler page
@@ -105,15 +129,6 @@ var LifeDB = (function() {
 	/**
 	* The initiate function can receives 2 arguments
 	* @param {string} databaseName - The name of the database
-	* @param {Object} data - Optional, The data with which the data base will be initiated
-	*
-	* Points to remeber the data mast have to follow the following format
-	* {
-	*	"key1": [{}, {}, {}],
-	*	"key2": [{}, {}, {}],
-	*	.............
-	*   .............
-	* }
 	*/
 	this.initiate = (function() {
 		if(typeof arguments[0][0] == "undefined") {
@@ -124,21 +139,21 @@ var LifeDB = (function() {
 		}
 		checkAndSetGlobalStorage();
 		checkIfNodeEnvironment();
-		
+		checkAndRestoreData();
 	})(arguments);
 
 	/**
 	* This public method is called to insert single or multiple data to a perticuler page
 	* @param pageName {String} - The name of the page where the record or records will go
 	* @param record {Object/Array} - The data which are going to be inserted in the page
-	* @param callBack {Function} - The callback function which will be called afterthe insert process is complete
+	* @param callBack {Function} - Optional, The callback function which will be called afterthe insert process is complete
 	*/
 	this.insert = (function(pageName, record, callBack) {
 		var numberOfEffectedRows;
 		numberOfEffectedRows = insertIntoDataBase(pageName, record);
 		backUpData();
 		if(!numberOfEffectedRows) {
-			callback(true, 0); // errorOccured, numberOfEffectedRows 
+			callback(true, 0); // errorOccured, numberOfEffectedRows 0
 		} else {
 			callback(false, numberOfEffectedRows);
 		}
