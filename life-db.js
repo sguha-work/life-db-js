@@ -8,13 +8,31 @@ var LifeDB = (function() {
 		isSessionStorageAvaileble, // If set then session storage is availeble for storing data
 		isNodeEnvironment, // If set then the environment is node js
 		checkIfNodeEnvironment, // this method set the isNodeEnvironment flag
-		globalDataStorage; // if sessionStorage is unavaileble and the environment is not Node then this variable will be used as data storage
+		globalDataStorage // this variable will be used as data storage
+		backUpData; // backup the data in sessionStorage or in file
 	// public properties
 	this.initiate;
 	this.insert;
 	this.update;
 	this.query;
 	this.remove;
+
+	/**
+	* This function backup the database to sessionStorage if the environment is browser or backup the database in file
+	* if the environment is Node
+	* 
+	*/
+	backUpData = (function() {
+		var fs;
+		if(!isNodeEnvironment && isSessionStorageAvaileble) {
+			sessionStorage[databaseName] = JSON.stringify(globalDataStorage);
+		} else if(isNodeEnvironment) {
+			fs = require('fs');
+			fs.writeFileSync(databaseName, JSON.stringify(globalDataStorage));
+		} else {
+			// ignore backup
+		}
+	});
 
 	/**
 	* Defining all the error messages with type of the error
@@ -79,4 +97,21 @@ var LifeDB = (function() {
 		checkIfNodeEnvironment();
 		
 	})(arguments);
+
+	/**
+	* This public method is called to insert single or multiple data to a perticuler page
+	* @param pageName {String} - The name of the page where the record or records will go
+	* @param record {Object/Array} - The data which are going to be inserted in the page
+	* @param callBack {Function} - The callback function which will be called afterthe insert process is complete
+	*/
+	this.insert = (function(pageName, record, callBack) {
+		var numberOfEffectedRows;
+		numberOfEffectedRows = insertIntoDataBase(pageName, record);
+		backUpData();
+		if(!numberOfEffectedRows) {
+			callback(true, 0); // errorOccured, numberOfEffectedRows 
+		} else {
+			callback(false, numberOfEffectedRows);
+		}
+	});
 });
