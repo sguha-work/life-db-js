@@ -23,10 +23,12 @@ var LifeDB = (function() {
 		var fs;
 		if(!isNodeEnvironment && isSessionStorageAvaileble) {
 			if(typeof sessionStorage[databaseName] === "undefined") {
-				// Restore process ignored
+				// empty sessionStorage so Restore process ignored
 			} else {
 				if(sessionStorage[databaseName].trim() !== "") {
 					globalDataStorage = JSON.parse(sessionStorage[databaseName]);
+				} else {
+					// empty sessionStorage so Restore process ignored
 				}
 			}
 		} else if(isNodeEnvironment) {
@@ -34,10 +36,10 @@ var LifeDB = (function() {
 			if(fs.statSync(databaseName).isFile()) {
 				globalDataStorage = JSON.parse(fs.readFileSync(databaseName));	
 			} else {
-				// Restore process ignored	
+				// file not exists so Restore process ignored	
 			}
 		} else {
-			// Restore process ignored
+			// sessionStorage not exists and not a node environment so Restore process ignored
 		}
 	});
 
