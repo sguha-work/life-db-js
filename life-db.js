@@ -17,6 +17,10 @@ var LifeDB = (function() {
 		checkAndFilterWithEqual, // This method filter the recordset with equality checking of key value pare
 		applyAndSeparatedQueryOnRecords, // This method apply And separated queries on recordset
 		checkDataWithQuery, // This method apply a single query on a single record
+		operatorList,// Holds the list of operators used in life-db
+		checkEquality, // check equality of attribute and value 
+		checkGreterThan, // 
+		checkLessThan;
 
 	// public properties
 	this.initiate;
@@ -35,6 +39,26 @@ var LifeDB = (function() {
 	};
 
 	/**
+	* @description Defining all the error messages with type of the error
+	*/
+	operatorList = [
+		"@eq",
+		"@lt",
+		"@gt"
+	];
+
+	/**
+	* @description Check the equality of values of attribute from record and attribute provided
+	* @param data {Object} - A single record
+	* @param attributeName {String} - Attribute name from query
+	* @param attributeValue {String} - Attribute value from query
+	* @returns {Boolean} if the value matches return true false instead
+	*/
+	checkEquality = (function(data, attributeName, attributeValue) {
+
+	});
+
+	/**
 	* @description This method returns the total page data
 	* @param pageName {String} - The name of the page where the query will hit
 	* @return {Array} - Array of matched records
@@ -50,7 +74,29 @@ var LifeDB = (function() {
 	* @return {Boolean} True if query matches the record false instead
 	*/
 	checkDataWithQuery = (function(data, query) {
-
+		var operator,
+			operatorIndex,
+			splittedQuery;
+		for(operatorIndex in operatorList) {
+			if(query.indexOf(operatorList[operatorIndex]) !== -1) {
+				operator = operatorList[operatorIndex];
+				break;
+			}
+		}
+		splittedQuery = query.split(operator);
+		// splittedQuery[0] attribute name
+		// splittedQuery[1] value
+		switch(operator) {
+			case "@eq": 
+				return checkEquality(data, splittedQuery[0], splittedQuery[1]);
+			break;
+			case "@gt": 
+				return checkGreterThan(data, splittedQuery[0], splittedQuery[1]);
+			break;
+			case "@lt": 
+				return checkLessThan(data, splittedQuery[0], splittedQuery[1]);
+			break;
+		}
 	});
 
 	/**
