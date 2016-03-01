@@ -15,7 +15,8 @@ var LifeDB = (function() {
 		filterRecords, // This method filtered the records based on query object provided
 		getPageData, // This method returns the total page data
 		checkAndFilterWithEqual, // This method filter the recordset with equality checking of key value pare
-		applyAndSeparatedQueryOnRecords; // This method apply And separated queries on recordset
+		applyAndSeparatedQueryOnRecords, // This method apply And separated queries on recordset
+		checkDataWithQuery, // This method apply a single query on a single record
 
 	// public properties
 	this.initiate;
@@ -42,8 +43,38 @@ var LifeDB = (function() {
 		return globalDataStorage[pageName];
 	});
 
-	applyAndSeparatedQueryOnRecords = (function() {
-		
+	/**
+	* @description This method apply a query on a single record
+	* @param data {Object} - A single record
+	* @param query {String} - A single query
+	* @return {Boolean} True if query matches the record false instead
+	*/
+	checkDataWithQuery = (function(data, query) {
+
+	});
+
+	/**
+	* @description This method apply And separated queries on recordset
+	* @param dataArray {Array} - The recordset
+	* @param andSeparatedQuery {String} - AND separated query
+	* @return {Array} Recordset
+	*/
+	applyAndSeparatedQueryOnRecords = (function(dataArray, andSeparatedQuery) {
+		var queryArray,
+			queryIndex,
+			dataIndex,
+			newDataArray;
+		queryArray = andSeparatedQuery.split("||");
+		newDataArray = [];
+		for(dataIndex in dataArray) {
+			for(queryIndex in queryArray) {
+				if(checkDataWithQuery(dataArray[dataIndex], queryArray[queryIndex])) {
+					newDataArray.push(dataArray[dataIndex]);
+					break;
+				}
+			}	
+		}
+		return newDataArray;	
 	});
 
 	/**
