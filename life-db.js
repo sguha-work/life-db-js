@@ -12,22 +12,60 @@ var LifeDB = (function() {
 		backUpData, // Backup the data in sessionStorage or in file
 		checkAndRestoreData, // This method checks if there is any backup exists and restore the data to database
 		checkIfPageExists, // This method checks if the page exists or not
-		filterRecords; // This method filtered the records based on query object provided
+		filterRecords, // This method filtered the records based on query object provided
+		getPageData, // This method returns the total page data
+		checkAndFilterWithEqual, // This method filter the recordset with equality checking of key value pare
+		applyAndSeparatedQueryOnRecords; // This method apply And separated queries on recordset
+
 	// public properties
 	this.initiate;
 	this.insert;
 	this.update;
-	this.query;
+	this.find;
 	this.remove;
+
+	/**
+	* @description Defining all the error messages with type of the error
+	*/
+	errorMessages = {
+		"dbNameNotSpecified": "Database name mast have to provide in time of initiating the database",
+		"pageNameCannotBeEmpty": "Page name required",
+		"pageDoesnotExists": "Provided page doesn't exists"
+	};
+
+	/**
+	* @description This method returns the total page data
+	* @param pageName {String} - The name of the page where the query will hit
+	* @return {Array} - Array of matched records
+	*/	
+	getPageData = (function(pageName) {
+		return globalDataStorage[pageName];
+	});
+
+	applyAndSeparatedQueryOnRecords = (function() {
+		
+	});
 
 	/**
 	* @description This method filtered the records based on query object provided
 	* @param pageName {String} - The name of the page where the query will hit
-	* @param queryObject {Object} - The query, Optional, if not provided all of the page data will be returned
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be returned
+	* @param limit {Array} - Array of 2 numbers first the lower limit 2nd the upper limit, Optional
+	* @param sort {Array} - Array of 2 strings first the attribute name 2nd the direction of sort, Optional
 	* @return {Array} - Array of matched records
 	*/
-	filterRecords = (function(pageName, queryObject) {
-
+	filterRecords = (function(pageName, queryString, limit, sort) {
+		var dataArray, 
+			andSeparatedQueries,
+			indexOfAndSeparatedQueries;
+		dataArray = getPageData(pageName);			
+		if(typeof queryObject !== "undefined" && queryObject.trim !== "") {
+			andSeparatedQueries = queryString.split("&&");
+			for(indexOfAndSeparatedQueries in andSeparatedQueries) {
+				dataArray = applyAndSeparatedQueryOnRecords(dataArray, andSeparatedQueries[indexOfAndSeparatedQueries]);
+			}
+		}
+		return dataArray;
 	});
 
 	/**
@@ -117,15 +155,6 @@ var LifeDB = (function() {
 	});
 
 	/**
-	* @description Defining all the error messages with type of the error
-	*/
-	errorMessages = {
-		"dbNameNotSpecified": "Database name mast have to provide in time of initiating the database",
-		"pageNameCannotBeEmpty": "Page name required",
-		"pageDoesnotExists": "Provided page doesn't exists"
-	};
-
-	/**
 	* @description The function responsible for displaying all kind of errors
 	* @param {string} errorType - The type of the error
 	*/
@@ -195,11 +224,13 @@ var LifeDB = (function() {
 
 	/**
 	* @param pageName {String} - The name of the page where the query will hit
-	* @param queryObject {Object} - The query, Optional, if not provided all of the page data will be returned
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be returned
+	* @param limit {Array} - Array of 2 numbers first the lower limit 2nd the upper limit, Optional
+	* @param sort {Array} - Array of 2 strings first the attribute name 2nd the direction of sort, Optional
 	* @return {Array} - Array of matched records
 	* @description This public method is called to filtered the records of a page based on query
 	*/
-	this.query = (function(pageName, queryObject) {
+	this.find = (function(pageName, queryString, limit, sort) {
 		if(pageName.trim() === "") {
 			showErrorMessage("pageNameCannotBeEmpty");
 			return false;
@@ -208,7 +239,13 @@ var LifeDB = (function() {
 				showErrorMessage("pageDoesnotExists");
 				return false;
 			} else {
-				return filterRecords(pageName, queryObject);
+				if(typeof limit == "undefined") {
+					limit = [0,0];
+				}
+				if(typeof sort == "undefined") {
+					sort = ["", ""];
+				}
+				return filterRecords(pageName, queryString, limit, sort);
 			}
 		}
 	});
