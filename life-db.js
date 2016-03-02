@@ -62,7 +62,7 @@ var LifeDB = (function() {
 		if(typeof data[attributeName] === "undefined") { // attribute doesn't exists so return false
 			return false;
 		} else {
-			if(data[attributeName] === attributeValue) {
+			if(data[attributeName] == attributeValue) {
 				return true;
 			} else {
 				return false;
@@ -224,7 +224,7 @@ var LifeDB = (function() {
 			queryIndex,
 			dataIndex,
 			newDataArray;
-		queryArray = andSeparatedQuery.split("||");
+		queryArray = andSeparatedQuery.split(" || ");
 		newDataArray = [];
 		for(dataIndex in dataArray) {
 			for(queryIndex in queryArray) {
@@ -249,9 +249,9 @@ var LifeDB = (function() {
 		var dataArray, 
 			andSeparatedQueries,
 			indexOfAndSeparatedQueries;
-		dataArray = getPageData(pageName);			
-		if(typeof queryObject !== "undefined" && queryObject.trim !== "") {
-			andSeparatedQueries = queryString.split("&&");
+		dataArray = getPageData(pageName);
+		if(typeof queryString !== "undefined" && queryString.trim() !== "") {
+			andSeparatedQueries = queryString.split(" && ");
 			for(indexOfAndSeparatedQueries in andSeparatedQueries) {
 				dataArray = applyAndSeparatedQueryOnRecords(dataArray, andSeparatedQueries[indexOfAndSeparatedQueries]);
 			}
