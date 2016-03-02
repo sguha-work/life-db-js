@@ -20,7 +20,9 @@ var LifeDB = (function() {
 		operatorList,// Holds the list of operators used in life-db
 		checkEquality, // check equality of attribute and value 
 		checkGreterThan, // 
-		checkLessThan;
+		checkLessThan,
+		checkGreterThanEqual,
+		checkLessThanEqual;
 
 	// public properties
 	this.initiate;
@@ -44,7 +46,9 @@ var LifeDB = (function() {
 	operatorList = [
 		"@eq",
 		"@lt",
-		"@gt"
+		"@gt",
+		"@le",
+		"@ge"
 	];
 
 	/**
@@ -52,10 +56,114 @@ var LifeDB = (function() {
 	* @param data {Object} - A single record
 	* @param attributeName {String} - Attribute name from query
 	* @param attributeValue {String} - Attribute value from query
-	* @returns {Boolean} if the value matches return true false instead
+	* @returns {Boolean} if the value matches return true, false instead
 	*/
 	checkEquality = (function(data, attributeName, attributeValue) {
+		if(typeof data[attributeName] === "undefined") { // attribute doesn't exists so return false
+			return false;
+		} else {
+			if(data[attributeName] === attributeValue) {
+				return true;
+			} else {
+				return false;
+			}	
+		}
+	});
 
+	/**
+	* @description Check the attribute value is greater than the value provided
+	* @param data {Object} - A single record
+	* @param attributeName {String} - Attribute name from query
+	* @param attributeValue {String} - Attribute value from query
+	* @returns {Boolean} if the value greter return true, false instead
+	*/
+	checkGreterThan = (function(data, attributeName, attributeValue) {
+		if(typeof data[attributeName] === "undefined") { // attribute doesn't exists so return false
+			return false;
+		} else {
+			if(isNaN(data[attributeName])) { // Value from data is not a number so return false
+				return false;
+			} else {
+				if(data[attributeName] > attributeValue) {
+					return true;
+				} else {
+					return false;
+				}		
+			}
+			
+		}
+	});
+
+	/**
+	* @description Check the attribute value is greater or equal than the value provided
+	* @param data {Object} - A single record
+	* @param attributeName {String} - Attribute name from query
+	* @param attributeValue {String} - Attribute value from query
+	* @returns {Boolean} if the value greter or equal return true, false instead
+	*/
+	checkGreterThanEqual = (function(data, attributeName, attributeValue) {
+		if(typeof data[attributeName] === "undefined") { // attribute doesn't exists so return false
+			return false;
+		} else {
+			if(isNaN(data[attributeName])) { // Value from data is not a number so return false
+				return false;
+			} else {
+				if(data[attributeName] >= attributeValue) {
+					return true;
+				} else {
+					return false;
+				}		
+			}
+			
+		}
+	});
+
+	/**
+	* @description Check the attribute value is less than the value provided
+	* @param data {Object} - A single record
+	* @param attributeName {String} - Attribute name from query
+	* @param attributeValue {String} - Attribute value from query
+	* @returns {Boolean} if the value less return true, false instead
+	*/
+	checkLessThan = (function(data, attributeName, attributeValue) {
+		if(typeof data[attributeName] === "undefined") { // attribute doesn't exists so return false
+			return false;
+		} else {
+			if(isNaN(data[attributeName])) { // Value from data is not a number so return false
+				return false;
+			} else {
+				if(data[attributeName] < attributeValue) {
+					return true;
+				} else {
+					return false;
+				}		
+			}
+			
+		}
+	});
+
+	/**
+	* @description Check the attribute value is less or equal than the value provided
+	* @param data {Object} - A single record
+	* @param attributeName {String} - Attribute name from query
+	* @param attributeValue {String} - Attribute value from query
+	* @returns {Boolean} if the value less or equal return true, false instead
+	*/
+	checkLessThanEqual = (function(data, attributeName, attributeValue) {
+		if(typeof data[attributeName] === "undefined") { // attribute doesn't exists so return false
+			return false;
+		} else {
+			if(isNaN(data[attributeName])) { // Value from data is not a number so return false
+				return false;
+			} else {
+				if(data[attributeName] <= attributeValue) {
+					return true;
+				} else {
+					return false;
+				}		
+			}
+			
+		}
 	});
 
 	/**
@@ -83,7 +191,7 @@ var LifeDB = (function() {
 				break;
 			}
 		}
-		splittedQuery = query.split(operator);
+		splittedQuery = query.split(" "+operator+" ");
 		// splittedQuery[0] attribute name
 		// splittedQuery[1] value
 		switch(operator) {
@@ -95,6 +203,12 @@ var LifeDB = (function() {
 			break;
 			case "@lt": 
 				return checkLessThan(data, splittedQuery[0], splittedQuery[1]);
+			break;
+			case "@ge": 
+				return checkGreterThanEqual(data, splittedQuery[0], splittedQuery[1]);
+			break;
+			case "@le": 
+				return checkLessThanEqual(data, splittedQuery[0], splittedQuery[1]);
 			break;
 		}
 	});
