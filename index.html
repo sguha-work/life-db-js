@@ -5,6 +5,9 @@
 	<script type="text/javascript" src="life-db.js"></script>
 	<script type="text/javascript">
 		var ldb = new LifeDB("my-db");
+		ldb.insert("student", [{name: "angshu", age: 27}, {name: "shyamol", age: 28}],function(){
+			alert("insert done");
+		}, true)
 	</script>
 </head>
 <body>

@@ -407,9 +407,9 @@ var LifeDB = (function() {
 			backUpData();
 		}
 		if(!numberOfEffectedRows) {
-			callback(true, 0); // errorOccured, numberOfEffectedRows 0
+			callBack(true, 0); // errorOccured, numberOfEffectedRows 0
 		} else {
-			callback(false, numberOfEffectedRows);
+			callBack(false, numberOfEffectedRows);
 		}
 	});
 
