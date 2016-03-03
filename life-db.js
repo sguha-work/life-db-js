@@ -238,6 +238,28 @@ var LifeDB = (function() {
 	});
 
 	/**
+	* @description This method chop the record lists by the provided limit
+	* @param dataArray {Array} - List of records
+	* @param limit {Array} - Array of 2 numbers first the lower limit 2nd the upper limit
+	* @return {Array} - Array of chopped records
+	*/
+	chopDataByLimit = (function(dataArray, limit) {
+		var newDataArray,
+			dataIndex;
+		newDataArray = [];
+		for(dataIndex in dataArray) {
+			if(dataIndex<limit[0]) {
+				continue;
+			}
+			if(dataIndex>limit[1]) {
+				break;
+			}
+			newDataArray.push(dataArray[dataIndex]);
+		}
+		return newDataArray;			
+	});
+
+	/**
 	* @description This method filtered the records based on query object provided
 	* @param pageName {String} - The name of the page where the query will hit
 	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be returned
@@ -256,6 +278,9 @@ var LifeDB = (function() {
 				dataArray = applyAndSeparatedQueryOnRecords(dataArray, andSeparatedQueries[indexOfAndSeparatedQueries]);
 			}
 		}
+		if(limit[1]!==0) { // if limit is defined
+			dataArray = chopDataByLimit(dataArray, limit);
+		}		
 		return dataArray;
 	});
 
@@ -430,10 +455,10 @@ var LifeDB = (function() {
 				showErrorMessage("pageDoesnotExists");
 				return false;
 			} else {
-				if(typeof limit == "undefined") {
+				if(typeof limit === "undefined") {
 					limit = [0,0];
 				}
-				if(typeof sort == "undefined") {
+				if(typeof sort === "undefined") {
 					sort = ["", ""];
 				}
 				return filterRecords(pageName, queryString, limit, sort);
