@@ -264,8 +264,9 @@ var LifeDB = (function() {
 	/**
 	* @description This method sort the data array
 	* @param dataArray {Array} - List of records
-	* @param limit {Array} - Array of 2 numbers first the lower limit 2nd the upper limit
-	* @return {Array} - Array of chopped records
+	* @param sortOrder {String} - The order of the sort
+	* @param attributeName {String} - The attribute based on whoose value sort will be performed
+	* @return {Array} - Array of sort records
 	*/
 	sortData = (function(dataArray, sortOrder, attributeName) {
 		var newDataArray,
