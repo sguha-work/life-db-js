@@ -258,7 +258,62 @@ var LifeDB = (function() {
 		}
 		return newDataArray;			
 	});
+	
 
+
+	/**
+	* @description This method sort the data array
+	* @param dataArray {Array} - List of records
+	* @param limit {Array} - Array of 2 numbers first the lower limit 2nd the upper limit
+	* @return {Array} - Array of chopped records
+	*/
+	sortData = (function(dataArray, sortOrder, attributeName) {
+		var newDataArray,
+			dataIndex;
+		if(sortOrder === "asc") {
+			return dataArray.sort(function(a, b) {
+			    return (Number(a[attributeName]) - Number(b[attributeName]));
+			});		
+		} else {
+			return dataArray.sort(function(a, b) {
+			    return (Number(b[attributeName]) - Number(a[attributeName]));
+			});		
+		}
+		
+		
+	});
+	function  quickSort(dataArray, attributeName, left, right) {
+	  var i = left;
+	  var j = right;
+	  var tmp;
+	  pivotidx = (left + right) / 2; 
+	  var pivot = parseInt(dataArray[pivotidx.toFixed()][attributeName]);  
+	  /* partition */
+	  while (i <= j) {
+	     while (parseInt(dataArray[i][attributeName]) < pivot) {
+	           i++;
+	     }
+	     while (parseInt(dataArray[j][attributeName]) > pivot) {
+	           j--;
+	     }
+	     if (i <= j) {
+	           tmp = dataArray[i];
+	           dataArray[i] = dataArray[j];
+	           dataArray[j] = tmp;
+	           i++;
+	           j--;
+	     }
+	  }
+
+	  /* recursion */
+	  if (left < j) {
+	        quickSort(dataArray, left, j);
+	  }
+	  if (i < right) {
+	        quickSort(dataArray, i, right);
+	  }
+		return dataArray;
+	}
 	/**
 	* @description This method filtered the records based on query object provided
 	* @param pageName {String} - The name of the page where the query will hit
@@ -270,7 +325,8 @@ var LifeDB = (function() {
 	filterRecords = (function(pageName, queryString, limit, sort) {
 		var dataArray, 
 			andSeparatedQueries,
-			indexOfAndSeparatedQueries;
+			indexOfAndSeparatedQueries,
+			sortOrder;
 		dataArray = getPageData(pageName);
 		if(typeof queryString !== "undefined" && queryString.trim() !== "") {
 			andSeparatedQueries = queryString.split(" && ");
@@ -280,7 +336,15 @@ var LifeDB = (function() {
 		}
 		if(limit[1]!==0) { // if limit is defined
 			dataArray = chopDataByLimit(dataArray, limit);
-		}		
+		}
+		if(sort[0].trim()!="" && sort[1].trim()!="") {
+			sortOrder = sort[1].trim().toLowerCase();
+			if(sortOrder=="asc" || sortOrder=="desc") {
+				if(dataArray.length >=1 && !isNaN(Number(dataArray[0][sort[0].trim()]))) {
+					dataArray = sortData(dataArray, sortOrder, sort[0].trim());
+				}
+			}
+		}
 		return dataArray;
 	});
 
@@ -455,10 +519,10 @@ var LifeDB = (function() {
 				showErrorMessage("pageDoesnotExists");
 				return false;
 			} else {
-				if(typeof limit === "undefined") {
+				if(typeof limit === "undefined" || !Array.isArray(limit)) {
 					limit = [0,0];
 				}
-				if(typeof sort === "undefined") {
+				if(typeof sort === "undefined" || !Array.isArray(sort)) {
 					sort = ["", ""];
 				}
 				return filterRecords(pageName, queryString, limit, sort);
