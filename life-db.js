@@ -83,9 +83,10 @@ var LifeDB = (function() {
 		}
 
 		insertIntoDataBase(pageName, newPageData, true);
-		
+
 		return gatheredData.length;
 	});
+
 	/**
 	* @description Check the equality of values of attribute from record and attribute provided
 	* @param data {Object} - A single record
@@ -595,5 +596,17 @@ var LifeDB = (function() {
 				return numberOfEffectedRows;
 			}
 		}
+	});
+
+	/**
+	* @description - This function is used for updating records of database
+	* @param pageName {String} - The name of the page where the query will hit
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be removed
+	* @param newRecordValue {Object} - The new record
+	* @param backupDatabase {Boolean} - Optional, default true, If true then the program will try to backup the data in session storage or file
+	* @return {Number} - The number of effected rows
+	*/
+	this.update = (function(pageName, queryString, newRecordValue, backupDatabase) {
+
 	});
 });
