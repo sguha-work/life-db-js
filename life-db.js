@@ -488,19 +488,19 @@ var LifeDB = (function() {
 	* @description This public method is called to insert single or multiple data to a perticuler page
 	* @param pageName {String} - The name of the page where the record or records will go
 	* @param record {Object/Array} - The data which are going to be inserted in the page
-	* @param callBack {Function} - Optional, The callback function which will be called afterthe insert process is complete
 	* @param backupDatabase {Boolean} - Optional, default true, If true then the program will try to backup the data in session storage or file
+	* @return {Number} - The number of effected rows
 	*/
-	this.insert = (function(pageName, record, callBack, backupDatabase) {
+	this.insert = (function(pageName, record, backupDatabase) {
 		var numberOfEffectedRows;
 		numberOfEffectedRows = insertIntoDataBase(pageName, record);
 		if(typeof backupDatabase === "undefined" || backupDatabase) {
 			backUpData();
 		}
 		if(!numberOfEffectedRows) {
-			callBack(true, 0); // errorOccured, numberOfEffectedRows 0
+			return 0; // errorOccured, numberOfEffectedRows 0
 		} else {
-			callBack(false, numberOfEffectedRows);
+			return numberOfEffectedRows;
 		}
 	});
 
@@ -528,6 +528,27 @@ var LifeDB = (function() {
 					sort = ["", ""];
 				}
 				return filterRecords(pageName, queryString, limit, sort);
+			}
+		}
+	});
+
+	/**
+	* @description - This function is used for removing the data from database
+	* @param pageName {String} - The name of the page where the query will hit
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be removed
+	* @param backupDatabase {Boolean} - Optional, default true, If true then the program will try to backup the data in session storage or file
+	* @return {Number} - The number of effected rows
+	*/
+	this.remove = (function(pageName, queryString, backupDatabase) {
+		if(pageName.trim() === "") {
+			showErrorMessage("pageNameCannotBeEmpty");
+			return false;
+		} else {
+			if(!checkIfPageExists(pageName)) {
+				showErrorMessage("pageDoesnotExists");
+				return false;
+			} else {
+
 			}
 		}
 	});
