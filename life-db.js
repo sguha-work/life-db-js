@@ -52,6 +52,41 @@ var LifeDB = (function() {
 	];
 
 	/**
+	* @description - This function is used for removing the data from database
+	* @param pageName {String} - The name of the page where the query will hit
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be removed
+	* @param backupDatabase {Boolean} - Optional, default true, If true then the program will try to backup the data in session storage or file
+	* @return {Number} - The number of effected rows
+	*/	
+	deleteData = (function(pageName, queryString, backupDatabase) {
+		var gatheredData,
+			pageData,
+			recordIndex,
+			gatheredDataIndex,
+			newPageData,
+			toBeRemovedFlag;
+		
+		pageData = this.find(pageName);
+		gatheredData = this.find(pageName, queryString);
+
+		for(recordIndex in pageData) {
+			toBeRemovedFlag = 0;
+			for(gatheredDataIndex in gatheredData) {
+				if(JSON.stringify(pageData[recordIndex]) == JSON.stringify(gatheredData[gatheredDataIndex])) {
+					toBeRemovedFlag = 1;
+					break;
+				}
+			}
+			if(!toBeRemovedFlag) {
+				newPageData.push(pageData[recordIndex]);
+			}
+		}
+
+		insertIntoDataBase(pageName, newPageData, true);
+		
+		return gatheredData.length;
+	});
+	/**
 	* @description Check the equality of values of attribute from record and attribute provided
 	* @param data {Object} - A single record
 	* @param attributeName {String} - Attribute name from query
@@ -394,9 +429,10 @@ var LifeDB = (function() {
 	* @description This public method is called to insert single or multiple data to a perticuler page
 	* @param pageName {String} - The name of the page where the record or records will go
 	* @param record {Object/Array} - The data which are going to be inserted in the page
+	* @param makePageEmptyFirst {Boolean} - If true the page will be made empty first then insert will take place
 	* @return {Number} - The number of rows effected
 	*/
-	insertIntoDataBase = (function(pageName, record) {
+	insertIntoDataBase = (function(pageName, record, makePageEmptyFirst) {
 		var recordIndex;
 		try {
 			if(typeof globalDataStorage === "undefined") {
@@ -405,13 +441,16 @@ var LifeDB = (function() {
 			if(typeof globalDataStorage[pageName] === "undefined") {
 				globalDataStorage[pageName] = [];
 			}
+			if(typeof makePageEmptyFirst != "undefined" && makePageEmptyFirst) {
+				globalDataStorage[pageName] = [];	
+			}
 			if(Array.isArray(record)) {
 				for(recordIndex in record) {
 					globalDataStorage[pageName].push(record[recordIndex]);
 				}
 				return recordIndex;
 			} else {
-				globalDataStorage[pageName].push(record);	
+				globallDataStorage[pageName].push(record);	
 				return 1;
 			}
 		} catch(exception) {
@@ -540,6 +579,7 @@ var LifeDB = (function() {
 	* @return {Number} - The number of effected rows
 	*/
 	this.remove = (function(pageName, queryString, backupDatabase) {
+		var numberOfEffectedRows;
 		if(pageName.trim() === "") {
 			showErrorMessage("pageNameCannotBeEmpty");
 			return false;
@@ -548,7 +588,11 @@ var LifeDB = (function() {
 				showErrorMessage("pageDoesnotExists");
 				return false;
 			} else {
-
+				numberOfEffectedRows = deleteData(pageName, queryString, backupDatabase);
+				if(typeof backupDatabase === "undefined" || backupDatabase) {
+					backUpData();
+				}
+				return numberOfEffectedRows;
 			}
 		}
 	});
