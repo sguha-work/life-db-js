@@ -62,7 +62,7 @@ var LifeDB = (function() {
 		if(typeof data[attributeName] === "undefined") { // attribute doesn't exists so return false
 			return false;
 		} else {
-			if(data[attributeName] == attributeValue) {
+			if(JSON.stringify(data[attributeName]) == JSON.stringify(attributeValue)) {
 				return true;
 			} else {
 				return false;
@@ -315,6 +315,7 @@ var LifeDB = (function() {
 	  }
 		return dataArray;
 	}
+
 	/**
 	* @description This method filtered the records based on query object provided
 	* @param pageName {String} - The name of the page where the query will hit
