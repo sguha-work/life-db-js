@@ -548,7 +548,9 @@ var LifeDB = (function() {
 	checkAndSetGlobalStorage = (function() {
 		if(typeof sessionStorage !== "undefined") {
 			isSessionStorageAvaileble = true;
-			sessionStorage[databaseName] = "";
+			if(typeof sessionStorage[databaseName] === "undefined") {
+				sessionStorage[databaseName] = "";
+			}
 		} else {
 			isSessionStorageAvaileble = false;
 		}
@@ -682,6 +684,9 @@ var LifeDB = (function() {
 			return false;
 		} else {
 			databaseName = arguments[0][0];
+		}
+		if(typeof globalDataStorage != "object") {
+			globalDataStorage = {};
 		}
 		checkAndSetGlobalStorage();
 		checkIfNodeEnvironment();
