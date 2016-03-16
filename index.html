@@ -2,17 +2,18 @@
 <html>
 <head>
 	<title></title>
-	<script type="text/javascript" src="production/life-db.js"></script>
+	<script type="text/javascript" src="life-db.js"></script>
 	<script type="text/javascript">
 		var ldb = new LifeDB("my-db");
-		ldb.insert("student", [{name: "angshu", age: 27}, {name: "shyamol", age: 20}, {name: "uttam", age: 30}],function(){
-			console.log("insert done");
-		}, true);
+		ldb.insert("student", [{name: "angshu", age: 27}, {name: "shyamol", age: 20}, {name: "uttam", age: 30}], true);
+		// console.log(JSON.stringify(ldb.find("student", "")));
+		// console.log(JSON.stringify(ldb.find("student", "age @eq 27")));
+		// console.log(JSON.stringify(ldb.find("student", "age @gt 27 && age @lt 30")));
+		// console.log(JSON.stringify(ldb.find("student", "",[1,2])));
+		// console.log(JSON.stringify(ldb.find("student", "","",["age", "asc"])));
 		console.log(JSON.stringify(ldb.find("student", "")));
-		console.log(JSON.stringify(ldb.find("student", "age @eq 27")));
-		console.log(JSON.stringify(ldb.find("student", "age @gt 27 && age @lt 30")));
-		console.log(JSON.stringify(ldb.find("student", "",[1,2])));
-		console.log(JSON.stringify(ldb.find("student", "","",["age", "asc"])));
+		ldb.update("student", "name @eq angshu", {name: "angshu", age: 30});
+		console.log(JSON.stringify(ldb.find("student", "")));
 	</script>
 </head>
 <body>

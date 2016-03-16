@@ -28,7 +28,9 @@
 
 <header>
     
-        <h2></h2>
+        <h2>
+        
+        </h2>
         
     
 </header>
@@ -140,7 +142,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="life-db.js.html">life-db.js</a>, <a href="life-db.js.html#line164">line 164</a>
+        <a href="life-db.js.html">life-db.js</a>, <a href="life-db.js.html#line661">line 661</a>
     </li></ul></dd>
     
 
@@ -167,7 +169,229 @@
 
     
 
-    <h4 class="name" id="insert"><span class="type-signature"></span>insert<span class="signature">(pageName, record, callBack, backupDatabase)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="find"><span class="type-signature"></span>find<span class="signature">(pageName, queryString, limit, sort)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    This public method is called to filtered the records of a page based on query
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pageName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the page where the query will hit</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>queryString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The query string, Optional, if not provided all of the page data will be returned</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>limit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of 2 numbers first the lower limit 2nd the upper limit, Optional</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sort</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of 2 strings first the attribute name 2nd the direction of sort, Optional</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="life-db.js.html">life-db.js</a>, <a href="life-db.js.html#line692">line 692</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Array of matched records
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="insert"><span class="type-signature"></span>insert<span class="signature">(pageName, record, backupDatabase)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -256,13 +480,13 @@
 
         <tr>
             
-                <td class="name"><code>callBack</code></td>
+                <td class="name"><code>backupDatabase</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">Boolean</span>
 
 
             
@@ -272,7 +496,183 @@
 
             
 
-            <td class="description last">Optional, The callback function which will be called afterthe insert process is complete</td>
+            <td class="description last">Optional, default true, If true then the program will try to backup the data in session storage or file</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="life-db.js.html">life-db.js</a>, <a href="life-db.js.html#line680">line 680</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - The number of effected rows
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(pageName, queryString, backupDatabase)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    - This function is used for removing the data from database
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pageName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the page where the query will hit</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>queryString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The query string, Optional, if not provided all of the page data will be removed</td>
         </tr>
 
     
@@ -336,7 +736,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="life-db.js.html">life-db.js</a>, <a href="life-db.js.html#line183">line 183</a>
+        <a href="life-db.js.html">life-db.js</a>, <a href="life-db.js.html#line703">line 703</a>
     </li></ul></dd>
     
 
@@ -359,6 +759,28 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - The number of effected rows
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -367,14 +789,14 @@
 
     
 
-    <h4 class="name" id="query"><span class="type-signature"></span>query<span class="signature">(pageName, queryObject)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(pageName, queryString, newRecordValue, backupDatabase)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
 
 
 <div class="description">
-    This public method is called to filtered the records of a page based on query
+    - This function is used for updating records of database
 </div>
 
 
@@ -433,7 +855,30 @@
 
         <tr>
             
-                <td class="name"><code>queryObject</code></td>
+                <td class="name"><code>queryString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The query string, Optional, if not provided all of the page data will be removed</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newRecordValue</code></td>
             
 
             <td class="type">
@@ -449,7 +894,30 @@
 
             
 
-            <td class="description last">The query, Optional, if not provided all of the page data will be returned</td>
+            <td class="description last">The new record</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>backupDatabase</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Optional, default true, If true then the program will try to backup the data in session storage or file</td>
         </tr>
 
     
@@ -490,7 +958,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="life-db.js.html">life-db.js</a>, <a href="life-db.js.html#line202">line 202</a>
+        <a href="life-db.js.html">life-db.js</a>, <a href="life-db.js.html#line715">line 715</a>
     </li></ul></dd>
     
 
@@ -517,7 +985,7 @@
 
         
 <div class="param-desc">
-    - Array of matched records
+    - The number of effected rows
 </div>
 
 
@@ -528,7 +996,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
+<span class="param-type">Number</span>
 
 
     </dd>
@@ -554,13 +1022,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#initiate">initiate</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#query">query</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#find">find</a></li><li><a href="global.html#initiate">initiate</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#update">update</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Mar 01 2016 12:14:35 GMT+0530 (IST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Wed Mar 16 2016 21:03:50 GMT+0530 (IST)
 </footer>
 
 <script> prettyPrint(); </script>

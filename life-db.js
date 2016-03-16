@@ -19,10 +19,16 @@ var LifeDB = (function() {
 		checkDataWithQuery, // This method apply a single query on a single record
 		operatorList,// Holds the list of operators used in life-db
 		checkEquality, // check equality of attribute and value 
-		checkGreterThan, // 
+		checkGreterThan,
 		checkLessThan,
 		checkGreterThanEqual,
-		checkLessThanEqual;
+		checkLessThanEqual,
+		deleteData,
+		updateData,
+		beginInsert,
+		beginUpdate,
+		beginFind,
+		beginRemove;
 
 	// public properties
 	this.initiate;
@@ -52,13 +58,51 @@ var LifeDB = (function() {
 	];
 
 	/**
+	* @description - This function is used for updating records of database
+	* @param pageName {String} - The name of the page where the query will hit
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be removed
+	* @param newRecordValue {Object} - The new record
+	* @return {Number} - The number of effected rows
+	*/
+	updateData = (function(pageName, queryString, newRecordValue) {
+		var gatheredData,
+			pageData,
+			recordIndex,
+			gatheredDataIndex,
+			newPageData,
+			toBeUpdatedFlag;
+		
+		pageData = beginFind(pageName);
+		gatheredData = beginFind(pageName, queryString);
+		newPageData = [];
+
+		for(recordIndex in pageData) {
+			toBeUpdatedFlag = 0;
+			for(gatheredDataIndex in gatheredData) {
+				if(JSON.stringify(pageData[recordIndex]) == JSON.stringify(gatheredData[gatheredDataIndex])) {
+					toBeUpdatedFlag = 1;
+					break;
+				}
+			}
+			if(toBeUpdatedFlag) {
+				newPageData.push(newRecordValue);
+			} else {
+				newPageData.push(pageData[recordIndex]);
+			}
+		}
+		insertIntoDataBase(pageName, newPageData, true);
+
+		return gatheredData.length;
+
+	});
+
+	/**
 	* @description - This function is used for removing the data from database
 	* @param pageName {String} - The name of the page where the query will hit
 	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be removed
-	* @param backupDatabase {Boolean} - Optional, default true, If true then the program will try to backup the data in session storage or file
 	* @return {Number} - The number of effected rows
 	*/	
-	deleteData = (function(pageName, queryString, backupDatabase) {
+	deleteData = (function(pageName, queryString) {
 		var gatheredData,
 			pageData,
 			recordIndex,
@@ -66,8 +110,9 @@ var LifeDB = (function() {
 			newPageData,
 			toBeRemovedFlag;
 		
-		pageData = this.find(pageName);
-		gatheredData = this.find(pageName, queryString);
+		pageData = beginFind(pageName);
+		gatheredData = beginFind(pageName, queryString);
+		newPageData = [];
 
 		for(recordIndex in pageData) {
 			toBeRemovedFlag = 0;
@@ -509,8 +554,109 @@ var LifeDB = (function() {
 	});
 
 	/**
+	* @description - This function is used for removing the data from database
+	* @param pageName {String} - The name of the page where the query will hit
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be removed
+	* @param backupDatabase {Boolean} - Optional, default true, If true then the program will try to backup the data in session storage or file
+	* @return {Number} - The number of effected rows
+	*/
+	beginRemove = (function(pageName, queryString, backupDatabase) {
+		var numberOfEffectedRows;
+		if(pageName.trim() === "") {
+			showErrorMessage("pageNameCannotBeEmpty");
+			return false;
+		} else {
+			if(!checkIfPageExists(pageName)) {
+				showErrorMessage("pageDoesnotExists");
+				return false;
+			} else {
+				numberOfEffectedRows = deleteData(pageName, queryString);
+				if(typeof backupDatabase === "undefined" || backupDatabase) {
+					backUpData();
+				}
+				return numberOfEffectedRows;
+			}
+		}
+	});
+	
+	/**
+	* @description This public method is called to insert single or multiple data to a perticuler page
+	* @param pageName {String} - The name of the page where the record or records will go
+	* @param record {Object/Array} - The data which are going to be inserted in the page
+	* @param backupDatabase {Boolean} - Optional, default true, If true then the program will try to backup the data in session storage or file
+	* @return {Number} - The number of effected rows
+	*/
+	beginInsert = (function(pageName, record, backupDatabase) {
+		var numberOfEffectedRows;
+		numberOfEffectedRows = insertIntoDataBase(pageName, record);
+		if(typeof backupDatabase === "undefined" || backupDatabase) {
+			backUpData();
+		}
+		if(!numberOfEffectedRows) {
+			return 0; // errorOccured, numberOfEffectedRows 0
+		} else {
+			return numberOfEffectedRows;
+		}
+	});
+
+	/**
+	* @param pageName {String} - The name of the page where the query will hit
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be returned
+	* @param limit {Array} - Array of 2 numbers first the lower limit 2nd the upper limit, Optional
+	* @param sort {Array} - Array of 2 strings first the attribute name 2nd the direction of sort, Optional
+	* @return {Array} - Array of matched records
+	* @description This public method is called to filtered the records of a page based on query
+	*/
+	beginFind = (function(pageName, queryString, limit, sort) {
+		if(pageName.trim() === "") {
+			showErrorMessage("pageNameCannotBeEmpty");
+			return false;
+		} else {
+			if(!checkIfPageExists(pageName)) {
+				showErrorMessage("pageDoesnotExists");
+				return false;
+			} else {
+				if(typeof limit === "undefined" || !Array.isArray(limit)) {
+					limit = [0,0];
+				}
+				if(typeof sort === "undefined" || !Array.isArray(sort)) {
+					sort = ["", ""];
+				}
+				return filterRecords(pageName, queryString, limit, sort);
+			}
+		}
+	});
+	
+	/**
+	* @description - This function is used for updating records of database
+	* @param pageName {String} - The name of the page where the query will hit
+	* @param queryString {String} - The query string, Optional, if not provided all of the page data will be removed
+	* @param newRecordValue {Object} - The new record
+	* @param backupDatabase {Boolean} - Optional, default true, If true then the program will try to backup the data in session storage or file
+	* @return {Number} - The number of effected rows
+	*/
+	beginUpdate = (function(pageName, queryString, newRecordValue, backupDatabase) {
+		var numberOfEffectedRows;
+		if(pageName.trim() === "") {
+			showErrorMessage("pageNameCannotBeEmpty");
+			return false;
+		} else {
+			if(!checkIfPageExists(pageName)) {
+				showErrorMessage("pageDoesnotExists");
+				return false;
+			} else {
+				numberOfEffectedRows = updateData(pageName, queryString, newRecordValue);
+				if(typeof backupDatabase === "undefined" || backupDatabase) {
+					backUpData();
+				}
+				return numberOfEffectedRows;	
+			}
+		}
+	});
+
+	/**
 	* @description This function instantiated the database. 
-	* @param {string} databaseName - The name of the database
+	* @param databaseName {String} - The name of the database
 	*/
 	this.initiate = (function() {
 		if(typeof arguments[0][0] == "undefined") {
@@ -532,16 +678,7 @@ var LifeDB = (function() {
 	* @return {Number} - The number of effected rows
 	*/
 	this.insert = (function(pageName, record, backupDatabase) {
-		var numberOfEffectedRows;
-		numberOfEffectedRows = insertIntoDataBase(pageName, record);
-		if(typeof backupDatabase === "undefined" || backupDatabase) {
-			backUpData();
-		}
-		if(!numberOfEffectedRows) {
-			return 0; // errorOccured, numberOfEffectedRows 0
-		} else {
-			return numberOfEffectedRows;
-		}
+		return beginInsert(pageName, record, backupDatabase);
 	});
 
 	/**
@@ -553,23 +690,7 @@ var LifeDB = (function() {
 	* @description This public method is called to filtered the records of a page based on query
 	*/
 	this.find = (function(pageName, queryString, limit, sort) {
-		if(pageName.trim() === "") {
-			showErrorMessage("pageNameCannotBeEmpty");
-			return false;
-		} else {
-			if(!checkIfPageExists(pageName)) {
-				showErrorMessage("pageDoesnotExists");
-				return false;
-			} else {
-				if(typeof limit === "undefined" || !Array.isArray(limit)) {
-					limit = [0,0];
-				}
-				if(typeof sort === "undefined" || !Array.isArray(sort)) {
-					sort = ["", ""];
-				}
-				return filterRecords(pageName, queryString, limit, sort);
-			}
-		}
+		return beginFind(pageName, queryString, limit, sort);
 	});
 
 	/**
@@ -580,22 +701,7 @@ var LifeDB = (function() {
 	* @return {Number} - The number of effected rows
 	*/
 	this.remove = (function(pageName, queryString, backupDatabase) {
-		var numberOfEffectedRows;
-		if(pageName.trim() === "") {
-			showErrorMessage("pageNameCannotBeEmpty");
-			return false;
-		} else {
-			if(!checkIfPageExists(pageName)) {
-				showErrorMessage("pageDoesnotExists");
-				return false;
-			} else {
-				numberOfEffectedRows = deleteData(pageName, queryString, backupDatabase);
-				if(typeof backupDatabase === "undefined" || backupDatabase) {
-					backUpData();
-				}
-				return numberOfEffectedRows;
-			}
-		}
+		return beginRemove(pageName, queryString, backupDatabase);
 	});
 
 	/**
@@ -607,6 +713,6 @@ var LifeDB = (function() {
 	* @return {Number} - The number of effected rows
 	*/
 	this.update = (function(pageName, queryString, newRecordValue, backupDatabase) {
-
+		return beginUpdate(pageName, queryString, newRecordValue, backupDatabase);
 	});
 });
