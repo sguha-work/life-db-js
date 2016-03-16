@@ -28,7 +28,8 @@ var LifeDB = (function() {
 		beginInsert,
 		beginUpdate,
 		beginFind,
-		beginRemove;
+		beginRemove,
+		beginDestroy;
 
 	// public properties
 	this.initiate;
@@ -36,7 +37,7 @@ var LifeDB = (function() {
 	this.update;
 	this.find;
 	this.remove;
-
+	this.destroy;
 	/**
 	* @description Defining all the error messages with type of the error
 	*/
@@ -655,6 +656,23 @@ var LifeDB = (function() {
 	});
 
 	/**
+	* @description - This function is used for destroying a database
+	* @param databaseName {String} - The name of the database
+	* @returns {Boolean} - Return true if destruction successfull, false otherwise
+	*/
+	beginDestroy = (function(databaseName) {
+		var fs;
+		if(!isNodeEnvironment && isSessionStorageAvaileble) {
+			sessionStorage[databaseName] = null;
+		} else if(isNodeEnvironment) {
+			fs = require('fs');
+			fs.writeFileSync(databaseName, "");
+		} else {
+			// ignore destroy
+		}
+	});
+
+	/**
 	* @description This function instantiated the database. 
 	* @param databaseName {String} - The name of the database
 	*/
@@ -714,5 +732,14 @@ var LifeDB = (function() {
 	*/
 	this.update = (function(pageName, queryString, newRecordValue, backupDatabase) {
 		return beginUpdate(pageName, queryString, newRecordValue, backupDatabase);
+	});
+
+	/**
+	* @description - This function is used for destroying a database
+	* @param databaseName {String} - The name of the database
+	* @returns {Boolean} - Return true if destruction successfull, false otherwise
+	*/
+	this.destroy = (function(databaseName) {
+		return beginDestroy(databaseName);
 	});
 });
