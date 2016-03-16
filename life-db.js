@@ -665,7 +665,7 @@ var LifeDB = (function() {
 	beginDestroy = (function(databaseName) {
 		var fs;
 		if(!isNodeEnvironment && isSessionStorageAvaileble) {
-			sessionStorage[databaseName] = null;
+			sessionStorage[databaseName] = "";
 		} else if(isNodeEnvironment) {
 			fs = require('fs');
 			fs.writeFileSync(databaseName, "");
