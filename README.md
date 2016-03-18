@@ -1,6 +1,7 @@
 # LifeDB
  
- ### What is LifeDB??
+ ###What is LifeDB??
+ 
    It is a lighweight, JSON based, no-sql formatted data base for browser and also it works in nodejs environment. In node environment it works like a flatfile database system. The program is intelligent enough to detect the environment where it is running and modify itself for performence.
   
   ### How does the DB work??
