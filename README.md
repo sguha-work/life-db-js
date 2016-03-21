@@ -65,6 +65,11 @@ When the database is initialized the constructor is called. The parameters of th
 |:-------|:----------:| :------|
 | databaseName | `String` | Mandetory, The name of the database, If not provided console error will be thrown|
 
+
+**Usage**
+```javascript
+ var ldb = new LifeDB("my-db"); // my-db is the database name
+```
   
  
  
