@@ -63,7 +63,7 @@ When the database is initialized the constructor is called. The parameters of th
 
 | Parameter | Type | Description |
 |:-------|:----------:| :------|
-| databaseName | `String` | Mandetory, The name of the database|
+| databaseName | `String` | Mandetory, The name of the database, If not provided console error will be thrown|
 
   
  
