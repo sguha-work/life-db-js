@@ -93,3 +93,21 @@ insert method can be used for inserting single or multiple data in the database
 
  **Note:** You can use a insert method from inside a loop to insert multiple data as record format
  
+ * **3> insert**
+
+insert method can be used for inserting single or multiple data in the database
+
+| Parameter | Type | Description |
+|:-------|:----------:| :------|
+| pageName | `String` | Mandetory, The name of the page where the record is going to, If not provided console error will be thrown|
+| queryString | `String` | The query string, Optional, if not provided all of the page data will be returned, default "" |
+| limit | `Array` | Optional, array of 2 numbers first the lower limit 2nd the upper limit, default [0, 0]
+| sort | `Array` | Optional, array of 2 strings first the attribute name 2nd the direction of sort default ["", ""]
+
+**Usage**
+```javascript
+ 
+```  
+
+ **Note:** You can use a insert method from inside a loop to insert multiple data as record format
+ 
