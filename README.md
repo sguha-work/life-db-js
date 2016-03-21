@@ -8,6 +8,26 @@
   
   In node environment the DB uses the [fs package](https://www.npmjs.com/package/fs) to store data in a file and also for restoring data from DB file. As like browser user also can avoid using file-system by not backing up the database.
   
+### Version
+1.0
+
+### Requirements
+#### For browser environment
+* Internet Explorer ( >=8.0 )
+* GoogleChrome ( >=4.0 )
+* FireFox ( >=3.5 )
+* Safari ( >= 4.0 )
+* Opera ( >=11.5 )
+#### For node environment
+* fs ( >=0.0.2 )
+* node ( >=0.10.37 ) [ developped in this version ]
+
+
+ 
+
+
+
+
   
  
  
