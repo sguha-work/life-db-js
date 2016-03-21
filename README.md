@@ -56,7 +56,7 @@
 * **Step 4:** Start using methods of LifeDB
 
 ### Function Description
-This section contains the description of the public methods availeble in LifeDB class. Examples are given in the next section
+This section contains the description of the public methods availeble in LifeDB class.
 * **1> The constructor**
 
 When the database is initialized the constructor is called. The parameters of the constructor is described below.
@@ -70,6 +70,26 @@ When the database is initialized the constructor is called. The parameters of th
 ```javascript
  var ldb = new LifeDB("my-db"); // my-db is the database name
 ```
-  
- 
+***Note:** If previous backed up data exists in sessionStorage the data will be restored autometically in time of initializing the database
+* **2> insert**
+
+insert method can be used for inserting single or multiple data in the database
+
+| Parameter | Type | Description |
+|:-------|:----------:| :------|
+| pageName | `String` | Mandetory, The name of the page where the record is going to, If not provided console error will be thrown|
+| record | `Object`/`Array` | The record or list of records to insert|
+| backupDatabase | `Boolean` | Optional, default `true`. If set to false the database will not be backed up in sessionStorage
+
+
+**Usage**
+```javascript
+ var ldb = new LifeDB("my-db"); // my-db is the database name
+ // inserting list of records
+ ldb.insert("student", [{name: "angshu", age: 27}, {name: "shyamol", age: 20}, {name: "uttam", age: 30}], true);
+ // inserting a single record
+ ldb.insert("student", {name: "angshu", age: 27}, true);
+```  
+
+ ***Note:** You can use a insert method from inside a loop to insert multiple data as record format
  
