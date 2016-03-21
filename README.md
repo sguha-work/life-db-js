@@ -70,8 +70,7 @@ When the database is initialized the constructor is called. The parameters of th
 ```javascript
  var ldb = new LifeDB("my-db"); // my-db is the database name
 ```
-***Note:** If previous backed up data exists in sessionStorage the data will be restored autometically in time of initializing the database
-
+**Note:** If previous backed up data exists in sessionStorage the data will be restored autometically in time of initializing the database
 * **2> insert**
 
 insert method can be used for inserting single or multiple data in the database
@@ -92,5 +91,5 @@ insert method can be used for inserting single or multiple data in the database
  ldb.insert("student", {name: "angshu", age: 27}, true);
 ```  
 
- ***Note:** You can use a insert method from inside a loop to insert multiple data as record format
+ **Note:** You can use a insert method from inside a loop to insert multiple data as record format
  
