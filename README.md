@@ -95,7 +95,7 @@ insert method can be used for inserting single or multiple data in the database
  
  * **3> find**
 
-insert method can be used for inserting single or multiple data in the database
+ilnsert method can be used for inserting single or multiple data in the database
 
 | Parameter | Type | Description |
 |:-------|:----------:| :------|
@@ -126,8 +126,8 @@ ldb.find("student", "age @gt 27 && age @lt 30");
 ldb.find("student", "",[1,2]);
 
 // Following query will return ["name":"shyamol","age":20}, {"name":"angshu","age":27}, {"name":"uttam","age":30}]
-ldb.find("student", "","",["age", "asc"])
+ldb.find("student", "","",["age", "asc"]);
 ```  
 
- **Note:** You can use a insert method from inside a loop to insert multiple data as record format
+ 
  
