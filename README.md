@@ -60,6 +60,7 @@ This section contains the description of the public methods availeble in LifeDB 
 * **1> The constructor**
 
 When the database is initialized the constructor is called. The parameters of the constructor is described below.
+
 | Parameter | Type | Description |
 |:-------|:----------:| :------|
 | databaseName | `String` | Mandetory, The name of the database|
