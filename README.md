@@ -18,6 +18,7 @@
 * FireFox ( >=3.5 )
 * Safari ( >= 4.0 )
 * Opera ( >=11.5 )
+
 #### For node environment
 * fs ( >=0.0.2 )
 * node ( >=0.10.37 ) [ developped in this version ]
