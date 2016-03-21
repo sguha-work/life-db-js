@@ -71,6 +71,7 @@ When the database is initialized the constructor is called. The parameters of th
  var ldb = new LifeDB("my-db"); // my-db is the database name
 ```
 ***Note:** If previous backed up data exists in sessionStorage the data will be restored autometically in time of initializing the database
+
 * **2> insert**
 
 insert method can be used for inserting single or multiple data in the database
