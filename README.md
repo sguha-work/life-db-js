@@ -38,10 +38,31 @@
 <script type="text/javascript" src="life-db-min.js"></script>
 ```
 * **Step 3:** Prepare an object of LifeDB
- 
+ ```javascript
+ var ldb = new LifeDB("my-db"); // my-db is the database name
+ ```
+* **Step 4:** Start using methods of LifeDB
 
+#### For node environment
+* **Step 1:** Copy the life-db-min.js or life-db.js file inside your project. (Check **[the file description](#usage-guide)** for details about the files inside the archive)
+* **Step 2:** Write a script tag in the <head> section of the page where you want to use LifeDB as follows
+```html
+<script type="text/javascript" src="life-db-min.js"></script>
+```
+* **Step 3:** Prepare an object of LifeDB
+ ```javascript
+ var ldb = new LifeDB("my-db"); // my-db is the database name
+ ```
+* **Step 4:** Start using methods of LifeDB
 
+### Function Description
+This section contains the description of the public methods availeble in LifeDB class. Examples are given in the next section
+* **1> The constructor**
 
+When the database is initialized the constructor is called. The parameters of the constructor is described below.
+| Parameter | Type | Description |
+|:-------|:----------:| :------|
+| databaseName | `String` | Mandetory, The name of the database|
 
   
  
