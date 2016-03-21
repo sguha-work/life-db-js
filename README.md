@@ -23,7 +23,21 @@
 * fs ( >=0.0.2 )
 * node ( >=0.10.37 ) [ developped in this version ]
 
+### Installation
+ * Download the **[`Life-db files`](https://github.com/sguha-work/life-db-js/archive/production.zip)**
+ * Unzip the archive and copy the file "life-db-min.js"
+ * Include "life-db-min.js" in your project (Check **[the usage guide](#usage-guide)** for details).
+ * Prepare the object of LifeDB (Check **[the usage guide](#usage-guide)** for details).
+ * Start using the methods and classes available under the **LifeDB** class to generate charts in your project.. 
 
+### Usage Guide
+#### For browser environment
+* **Step 1:** Copy the life-db-min.js or life-db.js file inside your project. (Check **[the file description](#usage-guide)** for details about the files inside the archive)
+* **Step 2:** Write a script tag in the <head> section of the page where you want to use LifeDB as follows
+```html
+<script type="text/javascript" src="life-db-min.js"></script>
+```
+* **Step 3:** Prepare an object of LifeDB
  
 
 
