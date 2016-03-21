@@ -93,7 +93,7 @@ insert method can be used for inserting single or multiple data in the database
 
  **Note:** You can use a insert method from inside a loop to insert multiple data as record format
  
- * **3> insert**
+ * **3> find**
 
 insert method can be used for inserting single or multiple data in the database
 
@@ -104,9 +104,29 @@ insert method can be used for inserting single or multiple data in the database
 | limit | `Array` | Optional, array of 2 numbers first the lower limit 2nd the upper limit, default [0, 0]
 | sort | `Array` | Optional, array of 2 strings first the attribute name 2nd the direction of sort default ["", ""]
 
+The function returns a list of records. If no records matched the query or the page is empty then empty array will be returned
+
 **Usage**
 ```javascript
- 
+/*
+* Assume that the database "my-db" is created and it holds 1 page named "student" and 3 records as follows
+* {name: "angshu", age: 27}, {name: "shyamol", age: 20}, {name: "uttam", age: 30}
+*/
+
+// the following query will return all of the records of "student" page
+result = ldb.find("student", "");
+
+// Following query will return [{name: "angshu", age: 27}]
+ldb.find("student", "age @eq 27");
+
+// Following query will return []
+ldb.find("student", "age @gt 27 && age @lt 30");
+
+// Following query will return [{"name":"shyamol","age":20},{"name":"uttam","age":30}]
+ldb.find("student", "",[1,2]);
+
+// Following query will return ["name":"shyamol","age":20}, {"name":"angshu","age":27}, {"name":"uttam","age":30}]
+ldb.find("student", "","",["age", "asc"])
 ```  
 
  **Note:** You can use a insert method from inside a loop to insert multiple data as record format
