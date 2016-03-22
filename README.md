@@ -195,3 +195,9 @@ There are two kinds of operators supported in LifeDB
 |:-------|:----------:|
 | `&&` | Logical AND operator|
 | `||` | Logical OR operator|
+
+### File Description
+| File Name | Description |
+|:-------|:----------:|
+| `life-db-min.js` | The minified version of LifeDB, no comments, uglified code |
+| `life-db.js` | With lots of comment indented code |
