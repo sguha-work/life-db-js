@@ -201,15 +201,15 @@ There are two kinds of operators supported in LifeDB
 
 | Operator | Description |
 |:-------|:----------:|
-| @eq | Equality checking operator|
-| @gt | Checks the given value is greter than the record value or not|
-| @ge | Checks the given value is greter than or equal the record value or not|
-| @lt | Checks the given value is less than the record value or not|
-| @le | Checks the given value is less than or equal the record value or not|
+| `@eq` | Equality checking operator|
+| `@gt` | Checks the given value is greter than the record value or not|
+| `@ge` | Checks the given value is greter than or equal the record value or not|
+| `@lt` | Checks the given value is less than the record value or not|
+| `@le` | Checks the given value is less than or equal the record value or not|
 
 * **Logical operator**
 
 | Operator | Description |
 |:-------|:----------:|
-| && | Logical AND operator|
-| || | Logical OR operator|
+| `&&` | Logical AND operator|
+| `||` | Logical OR operator|
