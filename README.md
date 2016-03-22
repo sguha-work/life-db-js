@@ -128,7 +128,7 @@ ldb.find("student", "",[1,2]);
 // Following query will return ["name":"shyamol","age":20}, {"name":"angshu","age":27}, {"name":"uttam","age":30}]
 ldb.find("student", "","",["age", "asc"]);
 ```  
- **Note:** Check the operator description for the supported logical and comparison operators.
+ **Note:** Check the [operator description](#operator-description) for the supported logical and comparison operators.
  
  * **4> remove**
 
@@ -195,4 +195,21 @@ The function returns true if the destruction successfull, false otherwise
 ldb.destroy("my-db");
 
 ```  
- 
+### Operator description 
+There are two kinds of operators supported in LifeDB
+* **Comparison operator**
+
+| Operator | Description |
+|:-------|:----------:|
+| @eq | Equality checking operator|
+| @gt | Checks the given value is greter than the record value or not|
+| @ge | Checks the given value is greter than or equal the record value or not|
+| @lt | Checks the given value is less than the record value or not|
+| @le | Checks the given value is less than or equal the record value or not|
+
+* **Logical operator**
+
+| Operator | Description |
+|:-------|:----------:|
+| && | Logical AND operator|
+| || | Logical OR operator|
