@@ -26,7 +26,7 @@
 
 ### Usage Guide
 #### For browser environment
-* **Step 1:** Copy the life-db-min.js or life-db.js file inside your project. (Check **[the file description](#usage-guide)** for details about the files inside the archive)
+* **Step 1:** Copy the life-db-min.js or life-db.js file inside your project. (Check **[the file description](#file-description)** for details about the files inside the archive)
 * **Step 2:** Write a script tag in the <head> section of the page where you want to use LifeDB as follows
 ```html
 <script type="text/javascript" src="life-db-min.js"></script>
