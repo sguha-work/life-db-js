@@ -128,6 +128,52 @@ ldb.find("student", "",[1,2]);
 // Following query will return ["name":"shyamol","age":20}, {"name":"angshu","age":27}, {"name":"uttam","age":30}]
 ldb.find("student", "","",["age", "asc"]);
 ```  
+ **Note:** Check the operator description for the supported logical and comparison operators.
+ 
+ * **4> remove**
 
+insert method can be used for inserting single or multiple data in the database
+
+| Parameter | Type | Description |
+|:-------|:----------:| :------|
+| pageName | `String` | Mandetory, The name of the page from where the record/records are going to be deleted, If not provided console error will be thrown|
+| queryString | `String` | The query string, Optional, if not provided all of the page data will be deleted, default "" |
+| backupDatabase | `Boolean` | Optional, control wheather data will be backed up or not , default true |
+The function returns a the number of effected rows.
+
+**Usage**
+```javascript
+/*
+* Assume that the database "my-db" is created and it holds 1 page named "student" and 3 records as follows
+* {name: "angshu", age: 27}, {name: "shyamol", age: 20}, {name: "uttam", age: 30}
+*/
+
+// the following query will return 1 as 1 record is deleted from the "student" page
+ldb.remove("student", "name @eq angshu");
+
+```  
+* **5> update**
+
+Update method can be used to update record/records from page of database
+
+| Parameter | Type | Description |
+|:-------|:----------:| :------|
+| pageName | `String` | Mandetory, The name of the page from where the record/records are going to be deleted, If not provided console error will be thrown|
+| queryString | `String` | The query string, Optional, if not provided all of the page data will be replaced by new record value, default "" |
+| newRecordValue | `Object` | The new record which will replace the old one |
+| backupDatabase | `Boolean` | Optional, control wheather data will be backed up or not , default true |
+The function returns a the number of effected rows.
+
+**Usage**
+```javascript
+/*
+* Assume that the database "my-db" is created and it holds 1 page named "student" and 3 records as follows
+* {name: "angshu", age: 27}, {name: "shyamol", age: 20}, {name: "uttam", age: 30}
+*/
+
+// the following query will return 1 as 1 record is updated from the "student" page
+ldb.update("student", "name @eq angshu", {name: "angshu", age: 30});
+
+``` 
  
  
