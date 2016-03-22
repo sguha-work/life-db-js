@@ -7,7 +7,7 @@
   In browser environment the DB use HTML5 sessionStorage for storing the data. If sessionStorage is not availeble it uses the window object of browser. In that case data will not be preserved after closing the page. Users also can avoid using sessionStorage by not backing up the database and reduce memory usage of browser
   
 ### Version
-1.0
+0.1
 
 ### Requirements
 #### For browser environment
