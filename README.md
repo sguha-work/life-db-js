@@ -175,5 +175,24 @@ The function returns a the number of effected rows.
 ldb.update("student", "name @eq angshu", {name: "angshu", age: 30});
 
 ``` 
- 
+* **6> destroy**
+
+Update method can be used to update record/records from page of database
+
+| Parameter | Type | Description |
+|:-------|:----------:| :------|
+| databaseName | `String` | Mandetory, The name of the database which will be destroyed|
+
+The function returns true if the destruction successfull, false otherwise
+**Usage**
+```javascript
+/*
+* Assume that the database "my-db" is created and it holds 1 page named "student" and 3 records as follows
+* {name: "angshu", age: 27}, {name: "shyamol", age: 20}, {name: "uttam", age: 30}
+*/
+
+// the following will return true if the desctruction of database successfull
+ldb.destroy("my-db");
+
+```  
  
