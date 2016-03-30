@@ -1,5 +1,5 @@
 {
-  "name": "life-db-js",
+  "name": "life-db",
   "version": "0.0.2",
   "description": "Flat file JSON based database",
   "main": "life-db-node.js",
