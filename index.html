@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1 id="lifedb">LifeDB</h1>
+<h3 id="what-is-lifedb">What is LifeDB??</h3>
+<p>It is a lighweight, JSON based, no-sql formatted data base for browser and also for node environment. The program is intelligent enough to detect the environment where it is running and modify itself for performence.</p>
+<h3 id="how-does-the-db-work">How does the DB work??</h3>
+<p>In browser environment the DB use HTML5 sessionStorage for storing the data. If sessionStorage is not availeble it uses the window object of browser. In that case data will not be preserved after closing the page. Users also can avoid using sessionStorage by not backing up the database and reduce memory usage of browser</p>
+<p>In node environment the DB works as a flat file database. i.e. the data will be stored in a text file, also user can avoid the storing of data by not backing up the database. If the data file already exists then the data will be restored autometically in time of initiation of the datbase ### Version 0.0.2 ### Change log * Bug fix for node environment * Bug fix in initiating the database * Documentation for using in node-environment</p>
+<h3 id="requirements">Requirements</h3>
+<h4 id="for-browser-environment">For browser environment</h4>
+<ul>
+<li>Internet Explorer ( &gt;=8.0 )</li>
+<li>GoogleChrome ( &gt;=4.0 )</li>
+<li>FireFox ( &gt;=3.5 )</li>
+<li>Safari ( &gt;= 4.0 )</li>
+<li>Opera ( &gt;=11.5 )</li>
+</ul>
+<h4 id="for-node-environment">For node environment</h4>
+<ul>
+<li>fs (&gt;=0.0.2)</li>
+<li>node (&gt;=0.10.37) (Developped in this version)</li>
+</ul>
+<h3 id="installation">Installation</h3>
+<h4 id="for-browser-environment-1">For browser environment</h4>
+<ul>
+<li>Download the <strong><a href="https://github.com/sguha-work/life-db-js/archive/production.zip"><code>Life-db files</code></a></strong></li>
+<li>Unzip the archive and copy the file “life-db-min.js”</li>
+<li>Include “life-db-min.js” in your project (Check <strong><a href="#usage-guide">the usage guide</a></strong> for details).</li>
+<li>Prepare the object of LifeDB (Check <strong><a href="#usage-guide">the usage guide</a></strong> for details).</li>
+<li>Start using the methods and classes available under the <strong>LifeDB</strong> class to generate charts in your project. #### For node environment</li>
+<li><p>Type the following command in your console inside your project folder. <strong>Note: Super user authentication may be needed</strong></p>
+<pre><code>npm install life-db</code></pre></li>
+<li>Include life-db in your project’s page wher you are going to use life-db (Check <strong><a href="#usage-guide">the usage guide</a></strong> for details).</li>
+<li>Prepare the object of LifeDB (Check <strong><a href="#usage-guide">the usage guide</a></strong> for details).</li>
+<li><p>Start using the metholds and classes available under the <strong>LifeDB</strong> class to generate charts in your project..</p></li>
+</ul>
+<h3 id="usage-guide">Usage Guide</h3>
+<h4 id="for-browser-environment-2">For browser environment</h4>
+<ul>
+<li><strong>Step 1:</strong> Copy the life-db-min.js or life-db.js file inside your project. (Check <strong><a href="#file-description">the file description</a></strong> for details about the files inside the archive)</li>
+<li><strong>Step 2:</strong> Write a script tag in the
+<head>
+<p>section of the page where you want to use LifeDB as follows</p>
+<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="ot"> src=</span><span class="st">&quot;life-db-min.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span></code></pre></div></li>
+<li><strong>Step 3:</strong> Prepare an object of LifeDB <code>javascript  var ldb = new LifeDB(&quot;my-db&quot;); // my-db is the database name</code></li>
+<li><p><strong>Step 4:</strong> Start using methods of LifeDB</p></li>
+</ul>
+<h4 id="for-node-environment-1">For node environment</h4>
+<ul>
+<li><strong>Step 1:</strong> Include LifeDB inside your page ```javascript var</li>
+</ul>
+</body>
+</html>
