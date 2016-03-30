@@ -462,10 +462,10 @@ var LifeDB = (function() {
 			}
 		} else if(isNodeEnvironment) {
 			fs = require('fs');
-			if(fs.statSync(databaseName).isFile()) {
-				globalDataStorage = JSON.parse(fs.readFileSync(databaseName));	
-			} else {
-				// file not exists so Restore process ignored	
+			try {
+				globalDataStorage = JSON.parse(fs.readFileSync(databaseName));
+			} catch(ex) {
+				// file not exists so ignoring restoration
 			}
 		} else {
 			// sessionStorage not exists and not a node environment so Restore process ignored
@@ -534,7 +534,7 @@ var LifeDB = (function() {
 	* @description This function checks wheather the environment is Node environment or not
 	*/
 	checkIfNodeEnvironment = (function() {
-		if(this===window) {
+		if(typeof window!="undefined" && this===window) {
 			isNodeEnvironment = false;
 		} else {
 			isNodeEnvironment = true;
