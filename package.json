@@ -1,8 +1,8 @@
 {
   "name": "life-db-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Flat file JSON based database",
-  "main": "life-db.js",
+  "main": "life-db-node.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
