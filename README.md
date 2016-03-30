@@ -1,7 +1,7 @@
 # LifeDB
  
 ### What is LifeDB??
-   It is a lighweight, JSON based, no-sql formatted data base for browser. The program is intelligent enough to detect the environment where it is running and modify itself for performence.
+   It is a lighweight, JSON based, no-sql formatted data base for browser and also for node environment. The program is intelligent enough to detect the environment where it is running and modify itself for performence.
   
 ### How does the DB work??
   In browser environment the DB use HTML5 sessionStorage for storing the data. If sessionStorage is not availeble it uses the window object of browser. In that case data will not be preserved after closing the page. Users also can avoid using sessionStorage by not backing up the database and reduce memory usage of browser
